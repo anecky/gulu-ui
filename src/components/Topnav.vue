@@ -49,12 +49,30 @@
       }
     }
 
+    .toggleAside {
+      display: none;
+      width: 24px;
+      height: 24px;
+      background: red;
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      -o-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
     @media (max-width: 500px) {
       > .menu {
         display: none
       }
       > .logo {
         margin: 0 auto
+      }
+      > .toggleAside {
+        display: inline-block;
       }
     }
   }
