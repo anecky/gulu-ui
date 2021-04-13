@@ -1,10 +1,13 @@
 <template>
-  <button class="gulu-button" :class="{[`gulu-${theme}`]:theme}" v-bind="rest">
+  <button class="gulu-button" :class="classes" v-bind="rest">
     <slot/>
+    {{theme}}
   </button>
 </template>
 
 <script lang="ts">
+  import {computed} from 'vue';
+
   export default {
     name: 'Button',
     inheritAttrs: false,
@@ -12,16 +15,26 @@
       theme: {
         type: String,
         default: 'button'
+      },
+      size: {
+        type: String,
+        default: 'normal'
       }
     },
-    setup(props, context) {
-      const {size, ...rest} = context.attrs;
-      return {size, rest};
+    setup(props) {
+      const {theme, size} = props;
+      const classes = computed(() => {
+        return {
+          [`gulu-theme-${theme}`]: theme,
+          [`gulu-size-${size}`]: size
+        };
+      });
+      return {classes, size};
     }
   };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   $h: 32px;
   $border-color: #d9d9d9;
   $color: #333;
@@ -55,21 +68,34 @@
       color: $blue;
       border-color: $blue;
     }
+
     &:focus {
       outline: none;
     }
+
     &::-moz-focus-inner {
       border: 0;
     }
   }
 
 
+  .gulu-theme-link {
+    border-color: transparent;
+    box-shadow: none;
+    color: $blue;
 
-  .theme-link {
-
+    &:hover, &:focus {
+      color: lighten($blue, 10%)
+    }
   }
 
-  .theme-text {
+  .gulu-theme-text {
+    border-color: transparent;
+    box-shadow: none;
+    color: inherit;
 
+    &:hover, &:focus {
+      background: darken(white, 1%);
+    }
   }
 </style>

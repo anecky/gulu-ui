@@ -1,6 +1,6 @@
 <template>
   <div>Button示例</div>
-  <h1>示例1</h1>
+  <h2>示例1</h2>
   <div>
     <Button>你好</Button>
     <Button theme="button">你好</Button>
