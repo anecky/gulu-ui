@@ -10,7 +10,6 @@
 
   export default {
     name: 'Button',
-    inheritAttrs: false,
     props: {
       theme: {
         type: String,
