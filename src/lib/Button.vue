@@ -1,7 +1,6 @@
 <template>
-  <button class="gulu-button" :class="classes" v-bind="rest">
+  <button class="gulu-button" :class="classes">
     <slot/>
-    {{theme}}
   </button>
 </template>
 
@@ -76,26 +75,38 @@
     &::-moz-focus-inner {
       border: 0;
     }
-  }
+    &.gulu-theme-link {
+      border-color: transparent;
+      box-shadow: none;
+      color: $blue;
 
+      &:hover, &:focus {
+        color: lighten($blue, 10%)
+      }
+    }
 
-  .gulu-theme-link {
-    border-color: transparent;
-    box-shadow: none;
-    color: $blue;
+    &.gulu-theme-text {
+      border-color: transparent;
+      box-shadow: none;
+      color: inherit;
 
-    &:hover, &:focus {
-      color: lighten($blue, 10%)
+      &:hover, &:focus {
+        background: darken(white, 5%);
+      }
+    }
+
+    &.gulu-size-big {
+      font-size: 24px;
+      height: 48px;
+      padding: 0 16px;
+    }
+
+    &.gulu-size-small {
+      font-size: 12px;
+      height: 20px;
+      padding: 0 4px;
     }
   }
 
-  .gulu-theme-text {
-    border-color: transparent;
-    box-shadow: none;
-    color: inherit;
 
-    &:hover, &:focus {
-      background: darken(white, 1%);
-    }
-  }
 </style>
