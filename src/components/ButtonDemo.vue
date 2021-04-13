@@ -46,6 +46,10 @@
     <Button theme="link" disabled>普通按钮</Button>
     <Button theme="text" disabled>危险按钮</Button>
   </div>
+  <h2>示例5</h2>
+  <div>
+    <Button loading>加载中</Button>
+  </div>
 </template>
 
 <script lang="ts">
