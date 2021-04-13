@@ -40,6 +40,12 @@
     <Button theme="text">普通文字按钮</Button>
     <Button theme="text" level="danger">危险文字按钮</Button>
   </div>
+  <h2>示例4</h2>
+  <div>
+    <Button disabled>主要按钮</Button>
+    <Button theme="link" disabled>普通按钮</Button>
+    <Button theme="text" disabled>危险按钮</Button>
+  </div>
 </template>
 
 <script lang="ts">
