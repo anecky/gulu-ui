@@ -2,7 +2,11 @@
   <div>dialog示例</div>
   <h2>示例1</h2>
   <Button @click="toggle">toggle</Button>
-  <Dialog v-model:visible="visible"></Dialog>
+  <Dialog v-model:visible="visible"
+          :closeOnclickOverlay="true"
+          :ok="f1"
+          :cancel="f2"
+  ></Dialog>
 </template>
 
 <script lang="ts">
@@ -18,7 +22,13 @@
       const toggle = () => {
         visible.value = !visible.value;
       };
-      return {visible, toggle};
+      const f1 = () => {
+        return false;
+      };
+      const f2 = () => {
+
+      };
+      return {visible, toggle, f1, f2};
     }
   };
 </script>
