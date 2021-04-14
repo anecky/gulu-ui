@@ -54,7 +54,22 @@
         width: $h2+4px;
         margin-left: -4px;
       }
+    }
 
+    span {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      height: $h2;
+      width: $h2;
+      background: white;
+      border-radius: $h2/2;
+      -webkit-transition: all 250ms;
+      -moz-transition: all 250ms;
+      -o-transition: all 250ms;
+      transition: all 250ms;
     }
   }
+
+
 </style>
