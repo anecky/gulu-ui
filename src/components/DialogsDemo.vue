@@ -16,14 +16,15 @@
         <strong>加粗的标题</strong>
       </template>
     </Dialog>
+    <Button @click="showDialog">show</Button>
   </div>
-  <div style="position: relative;z-index: 2;width:300px;height: 300px;background:red;"></div>
 </template>
 
 <script lang="ts">
   import Dialog from '../lib/Dialog.vue';
   import Button from '../lib/Button.vue';
-  import {ref} from 'vue';
+  import {ref, h} from 'vue';
+  import {openDialog} from '../lib/openDialog';
 
   export default {
     name: 'DialogsDemo',
@@ -34,12 +35,25 @@
         visible.value = !visible.value;
       };
       const f1 = () => {
+        console.log('ok');
         return false;
       };
       const f2 = () => {
-
+        console.log('cancel');
       };
-      return {visible, toggle, f1, f2};
+      const showDialog = () => {
+        openDialog({
+          title: h('strong', {}, '标题'),
+          content: '你好',
+          ok() {
+            console.log('ok');
+          },
+          cancel() {
+            console.log('cancel');
+          }
+        });
+      };
+      return {visible, toggle, f1, f2, showDialog};
     }
   };
 </script>
