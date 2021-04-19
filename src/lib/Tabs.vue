@@ -1,12 +1,15 @@
 <template>
   <div class="gulu-tabs">
-    <div class="gulu-tabs-nav">
+    <div class="gulu-tabs-nav" ref="container">
       <div class="gulu-tabs-nav-item"
            v-for="(t,index) in titles"
            @click="select(t)"
            :class="{selected:t===selected}"
-           :key="index">{{t}}
+           :key="index"
+           :ref="el=>{if(el) navItems[index]=el}"
+      >{{t}}
       </div>
+      <div class="gulu-tabs-nav-indicator" ref="indicator"></div>
     </div>
     <div class="gulu-tabs-content">
       <component class="gulu-tabs-content-item"
@@ -19,7 +22,7 @@
 
 <script lang="ts">
   import Tab from './Tab.vue';
-  import {computed} from 'vue';
+  import {computed, ref, onMounted, onUpdated} from 'vue';
 
   export default {
     name: 'Tabs',
@@ -29,6 +32,22 @@
       }
     },
     setup(props, context) {
+      const navItems = ref<HTMLDivElement[]>([]);
+      const indicator = ref<HTMLDivElement>(null);
+
+      const container = ref<HTMLDivElement>(null);
+      const x = () => {
+        const divs = navItems.value;
+        const result = divs.filter(div => div.classList.contains('selected'))[0];
+        const {width} = result.getBoundingClientRect();
+        indicator.value.style.width = width + 'px';
+        const {left: left1} = container.value.getBoundingClientRect();
+        const {left: left2} = result.getBoundingClientRect();
+        const left = left2 - left1;
+        indicator.value.style.left = left + 'px';
+      };
+      onMounted(x);
+      onUpdated(x);
       const defaults = context.slots.default();
       defaults.forEach((tag) => {
         if (tag.type !== Tab) {
@@ -47,7 +66,15 @@
       const titles = defaults.map(tag => {
         return tag.props.title;
       });
-      return {defaults, titles, select, current};
+      return {
+        defaults,
+        titles,
+        select,
+        current,
+        navItems,
+        indicator,
+        container
+      };
     }
   };
 </script>
@@ -62,30 +89,40 @@
       display: flex;
       color: $color;
       border-bottom: 1px solid $border-color;
-    }
+      position: relative;
 
-    &-item {
-      padding: 8px 0;
-      margin: 0 16px;
-      cursor: pointer;
+      &-item {
+        padding: 8px 0;
+        margin: 0 16px;
+        cursor: pointer;
 
-      &:first-child {
-        margin-left: 0;
+        &:first-child {
+          margin-left: 0;
+        }
+
+        &.selected {
+          color: $blue;
+        }
       }
 
-      &.selected {
-        color: $blue;
+      &-indicator {
+        position: absolute;
+        height: 3px;
+        background: $blue;
+        left: 0;
+        bottom: -1px;
+        width: 100px;
+        transition: all 250ms;
       }
     }
 
     &-content {
       padding: 8px 0;
+
       &-item {
-        border: 1px solid red;
         display: none;
 
         &.selected {
-          border: 1px solid green;
           display: block;
         }
       }
