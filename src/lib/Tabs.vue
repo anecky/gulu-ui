@@ -22,7 +22,7 @@
 
 <script lang="ts">
   import Tab from './Tab.vue';
-  import {computed, ref, onMounted, onUpdated} from 'vue';
+  import {computed, ref, watchEffect, onMounted} from 'vue';
 
   export default {
     name: 'Tabs',
@@ -36,27 +36,21 @@
       const indicator = ref<HTMLDivElement>(null);
       const container = ref<HTMLDivElement>(null);
       console.log(selectedItem.value);
-      const x = () => {
-        const {width} = selectedItem.value.getBoundingClientRect();
-        indicator.value.style.width = width + 'px';
-        const {left: left1} = container.value.getBoundingClientRect();
-        const {left: left2} = selectedItem.value.getBoundingClientRect();
-        const left = left2 - left1;
-        indicator.value.style.left = left + 'px';
-      };
-      onMounted(x);
-      onUpdated(x);
+      onMounted(() => {
+        watchEffect(() => {
+          const {width} = selectedItem.value.getBoundingClientRect();
+          indicator.value.style.width = width + 'px';
+          const {left: left1} = container.value.getBoundingClientRect();
+          const {left: left2} = selectedItem.value.getBoundingClientRect();
+          const left = left2 - left1;
+          indicator.value.style.left = left + 'px';
+        });
+      });
       const defaults = context.slots.default();
       defaults.forEach((tag) => {
         if (tag.type !== Tab) {
           throw new Error('Tabs 子标签必须是Tab');
         }
-      });
-      const current = computed(() => {
-        console.log('重新 return');
-        return defaults.filter((tag) => {
-          return tag.props.title === props.selected;
-        })[0];
       });
       const select = (title: string) => {
         context.emit('update:selected', title);
@@ -68,7 +62,6 @@
         defaults,
         titles,
         select,
-        current,
         selectedItem,
         indicator,
         container
