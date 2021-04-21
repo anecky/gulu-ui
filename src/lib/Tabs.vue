@@ -12,17 +12,14 @@
       <div class="gulu-tabs-nav-indicator" ref="indicator"></div>
     </div>
     <div class="gulu-tabs-content">
-      <component class="gulu-tabs-content-item"
-                 v-for="c in defaults"
-                 :class="{selected: c.props.title === selected}"
-                 :is="c"/>
+      <component :is="current" :key="current.props.title"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
   import Tab from './Tab.vue';
-  import {computed, ref, watchEffect, onMounted} from 'vue';
+  import {computed, ref, watchEffect,onUpdated, onMounted} from 'vue';
 
   export default {
     name: 'Tabs',
@@ -36,22 +33,32 @@
       const indicator = ref<HTMLDivElement>(null);
       const container = ref<HTMLDivElement>(null);
       console.log(selectedItem.value);
-      onMounted(() => {
-        watchEffect(() => {
-          const {width} = selectedItem.value.getBoundingClientRect();
-          indicator.value.style.width = width + 'px';
-          const {left: left1} = container.value.getBoundingClientRect();
-          const {left: left2} = selectedItem.value.getBoundingClientRect();
-          const left = left2 - left1;
-          indicator.value.style.left = left + 'px';
-        });
-      });
+      const x = () => {
+        const {width} = selectedItem.value.getBoundingClientRect();
+        indicator.value.style.width = width + 'px';
+        const {left: left1} = container.value.getBoundingClientRect();
+        console.log(left1);
+        const {left: left2} = selectedItem.value.getBoundingClientRect();
+        console.log(left2);
+        const left = left2 - left1;
+        indicator.value.style.left = left + 'px';
+      }
+      onMounted(x);
+      onUpdated(x);
       const defaults = context.slots.default();
       defaults.forEach((tag) => {
         if (tag.type !== Tab) {
           throw new Error('Tabs 子标签必须是Tab');
         }
       });
+      const current = computed(() => {
+        for (let i = 0; i < defaults.length; i++) {
+          if (defaults[i].props.title === props.selected) {
+            return defaults[i];
+          }
+        }
+      });
+      console.log(current);
       const select = (title: string) => {
         context.emit('update:selected', title);
       };
@@ -62,6 +69,7 @@
         defaults,
         titles,
         select,
+        current,
         selectedItem,
         indicator,
         container
@@ -109,14 +117,6 @@
 
     &-content {
       padding: 8px 0;
-
-      &-item {
-        display: none;
-
-        &.selected {
-          display: block;
-        }
-      }
     }
   }
 
