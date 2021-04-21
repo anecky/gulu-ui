@@ -6,10 +6,13 @@
       </svg>
     </div>
     <ul class="menu">
-      <li>菜单1</li>
-      <li>菜单2</li>
+      <li>
+        <router-link to="/doc">文档</router-link>
+      </li>
     </ul>
-    <span class="toggleAside" @click="toggleMenu"></span>
+    <svg v-if="toggleMenuButtonVisible" class="icon toggleAside" @click="toggleMenu">
+      <use xlink:href="#icon-menu"></use>
+    </svg>
   </div>
 </template>
 
@@ -18,6 +21,12 @@
 
   export default {
     name: 'Topnav',
+    props: {
+      toggleMenuButtonVisible: {
+        type: Boolean,
+        default: false
+      }
+    },
     setup() {
       let menuVisible = inject<Ref<boolean>>('menuVisible');
       const toggleMenu = () => {
@@ -66,7 +75,7 @@
       display: none;
       width: 24px;
       height: 24px;
-      background: red;
+      background: fade-out(black, 0.9);
       position: absolute;
       left: 16px;
       top: 50%;
