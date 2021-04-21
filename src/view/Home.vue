@@ -1,6 +1,6 @@
 <template>
   <div class="topnavAndBanner">
-    <Topnav toggleMenuButtonVisible/>
+    <Topnav :toggleMenuButtonVisible="false"/>
     <div class="banner">
       <h1>轱辘ui</h1>
       <h2>一个厉害的UI框架</h2>
