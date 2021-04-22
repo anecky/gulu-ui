@@ -49,7 +49,7 @@
       }
     }
 
-    &.checked:active {
+    &.gulu-checked:active {
       > span {
         width: $h2+4px;
         margin-left: -4px;
@@ -67,7 +67,7 @@
       -webkit-transition: all 250ms;
       -moz-transition: all 250ms;
       -o-transition: all 250ms;
-      transition: all 250ms;
+      transition: all 250ms cubic-bezier(0.18, 0.89, 0.32, 1.28) 0s;
     }
   }
 
