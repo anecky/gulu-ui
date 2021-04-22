@@ -79,6 +79,7 @@
       position: absolute;
       left: 16px;
       top: 50%;
+      z-index: 20;
       -webkit-transform: translateY(-50%);
       -moz-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
