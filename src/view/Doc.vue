@@ -101,6 +101,10 @@
     > ol {
       > li {
         padding: 4px 0;
+
+        .router-link-active {
+          color: red;
+        }
       }
     }
   }
