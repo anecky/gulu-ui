@@ -1,19 +1,20 @@
 <template>
   <div class="demo">
-    <h2>常规用法</h2>
+    <h2>{{component.__sourceCodeTitle}}</h2>
     <div class="demo-component">
       <component :is="component"/>
     </div>
-    <div class="demo-action">
-      <Button>查看代码</Button>
+    <div class="demo-actions">
+      <Button @click="toggleCode">查看代码</Button>
     </div>
-    <div class="demo-code">
-      <pre class="language-html" v-html="Prism.highlight(component.__sourceCode, Prism.languages.html,'html')"></pre>
+    <div class="demo-code" v-if="codeVisible">
+      <pre class="language-html" v-html="html"></pre>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+  import {ref, computed} from 'vue';
   import 'prismjs';
   import 'prismjs/themes/prism.css';
   import Button from '../lib/Button.vue';
@@ -25,9 +26,19 @@
     props: {
       component: Object
     },
-    setup() {
+    setup(props) {
+      const codeVisible = ref(false);
+      const html = computed(() => {
+        return Prism.highlight(props.component.__sourceCode, Prism.languages.html, 'html');
+      });
+      const toggleCode = () => {
+        codeVisible.value = !codeVisible.value;
+      };
       return {
-        Prism
+        Prism,
+        html,
+        toggleCode,
+        codeVisible,
       };
     }
   };

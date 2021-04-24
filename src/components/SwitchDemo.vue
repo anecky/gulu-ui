@@ -4,8 +4,6 @@
 </template>
 
 <script lang="ts">
-  import Switch from '../lib/Switch.vue';
-  import {ref} from 'vue';
   import SwitchDemo1 from './switchDemo/SwitchDemo1.vue';
   import SwitchDemo2 from './switchDemo/SwitchDemo2.vue';
   import Demo from './Demo.vue';
