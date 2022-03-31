@@ -1,0 +1,36 @@
+<demo>
+  一行代码打开 dialog
+</demo>
+<template>
+  <Button @click="showDialog">show</Button>
+</template>
+
+<script lang="ts">
+  import {h} from 'vue';
+  import Button from '../../lib/Button.vue';
+  import {openDialog} from '../../lib/openDialog';
+
+  export default {
+    name: 'dialogDemo2',
+    components: {Button},
+    setup() {
+      const showDialog = () => {
+        openDialog({
+          title: h('strong', {}, '标题'),
+          content: '你好',
+          ok() {
+            console.log('ok');
+          },
+          cancel() {
+            console.log('cancel');
+          }
+        });
+      };
+      return {showDialog};
+    }
+  };
+</script>
+
+<style lang="scss" scoped>
+
+</style>
